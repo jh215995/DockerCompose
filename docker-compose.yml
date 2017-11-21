@@ -1,0 +1,22 @@
+version: "3.1"
+services:
+  web:
+    # replace username/repo:tag with your name and image details
+         image: docker215995/repos215995:tag4
+         ports:
+           - "80:80"
+         networks:
+           - ucp-hrm
+         deploy:
+             replicas: 2
+             update_config:
+               parallelism: 2
+               delay: 10s
+             restart_policy:
+                 condition: on-failure
+         labels:
+           - com.docker.ucp.mesh.http.80=external_route=http://myservice_web.fdxdevopsdocker.southcentralus.cloudapp.azure.com,internal_port=80
+networks:
+  ucp-hrm:
+    external:
+      name: ucp-hrm
